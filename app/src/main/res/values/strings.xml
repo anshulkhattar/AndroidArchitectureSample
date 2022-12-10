@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Architecture Sample</string>
+    <string name="error_fetching_articles">Error fetching articles</string>
+</resources>
