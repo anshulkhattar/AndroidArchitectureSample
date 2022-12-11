@@ -21,6 +21,7 @@ object NetworkModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
@@ -32,6 +33,7 @@ object NetworkModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideApiClient(retrofit: Retrofit): ApiInterface {
         return retrofit.create(ApiInterface::class.java)
