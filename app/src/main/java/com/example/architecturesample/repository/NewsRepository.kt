@@ -22,14 +22,12 @@ class NewsRepository @Inject constructor(private val apiService: ApiInterface) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             throwable.localizedMessage?.let { Log.e("Exception handled:", it) }
         }
-        coroutineScope.launch(exceptionHandler) {
-            withContext(Dispatchers.IO) {
-                val res = apiService.getNewsAsync().await()
-                if (res.isSuccessful) {
-                    liveData?.postValue(Response.success(res.body()?.articles))
-                } else {
-                    liveData?.postValue(res.errorBody()?.let { Response.error(it, res.raw()) })
-                }
+        coroutineScope.launch(Dispatchers.IO + exceptionHandler) {
+            val res = apiService.getNewsAsync()
+            if (res.isSuccessful) {
+                liveData?.postValue(Response.success(res.body()?.articles))
+            } else {
+                liveData?.postValue(res.errorBody()?.let { Response.error(it, res.raw()) })
             }
         }
     }
