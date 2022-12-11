@@ -24,7 +24,7 @@ class NewsRepository @Inject constructor(private val apiService: ApiInterface) {
         }
         coroutineScope.launch(exceptionHandler) {
             withContext(Dispatchers.IO) {
-                val res = apiService.getNewsAsync()
+                val res = apiService.getNewsAsync().await()
                 if (res.isSuccessful) {
                     liveData?.postValue(Response.success(res.body()?.articles))
                 } else {
