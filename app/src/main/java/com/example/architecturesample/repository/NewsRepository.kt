@@ -22,8 +22,8 @@ class NewsRepository @Inject constructor(private val apiService: ApiInterface) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             throwable.localizedMessage?.let { Log.e("Exception handled:", it) }
         }
-        coroutineScope.launch(Dispatchers.IO + exceptionHandler) {
-            withContext(Dispatchers.Main) {
+        coroutineScope.launch(exceptionHandler) {
+            withContext(Dispatchers.IO) {
                 val res = apiService.getNewsAsync()
                 if (res.isSuccessful) {
                     liveData?.postValue(Response.success(res.body()?.articles))
